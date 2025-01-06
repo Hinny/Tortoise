@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project>
 	<PropertyGroup>
-		<OculusPath>C:\Program Files\Steam\steamapps\common\Gorilla Tag</OculusPath>
+		<OculusPath>D:\SteamLibrary\steamapps\common\Gorilla Tag</OculusPath>
 		<OculusPluginsPath>$(OculusPath)\BepInEx\plugins</OculusPluginsPath>
 
-    <SteamPath>C:\Program Files\Steam\steamapps\common\Gorilla Tag</SteamPath>
+    <SteamPath>D:\SteamLibrary\steamapps\common\Gorilla Tag</SteamPath>
     <SteamPluginsPath>$(SteamPath)\BepInEx\plugins</SteamPluginsPath>
-    
+
 		<GameAssemblyPath>$(SteamPath)\Gorilla Tag_Data\Managed</GameAssemblyPath>
 		<BepInExAssemblyPath>$(SteamPath)\BepInEx\core</BepInExAssemblyPath>
 	</PropertyGroup>
@@ -18,7 +18,7 @@
 		<WarningLevel>0</WarningLevel>
 	</PropertyGroup>
 
-  <PropertyGroup>  
+  <PropertyGroup>
     <DefaultItemExcludes>$(DefaultItemExcludes);**\WithCI\**</DefaultItemExcludes>
   </PropertyGroup>
 </Project>
