@@ -88,7 +88,7 @@ namespace Grate.Patches
         }
     }*/
 
-    [HarmonyPatch(typeof(Player))]
+   /* [HarmonyPatch(typeof(Player))]
     [HarmonyPatch(nameof(Player.TeleportTo))]
     internal class TeleportPatch
     {
@@ -118,5 +118,5 @@ namespace Grate.Patches
             }
             return false;
         }
-    }
+    }*/
 }

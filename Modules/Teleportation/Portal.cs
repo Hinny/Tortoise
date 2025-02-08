@@ -167,7 +167,7 @@ namespace Grate.Modules.Teleportation
             if (!outPortal) return;
             float p = Player.Instance.RigidbodyVelocity.magnitude;
             StartCoroutine(PortalTimeout(inPortal, outPortal));
-            Player.Instance.TeleportTo(outPortal.transform.FindChild("TP"),true);
+             Player.Instance.TeleportTo(outPortal.transform.FindChild("TP"),true);
             Player.Instance.SetVelocity(p * outPortal.transform.forward);
         }
 

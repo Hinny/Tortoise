@@ -187,7 +187,7 @@ namespace Grate
                 Logging.Info("Platform: ", platform);
                 IsSteam = platform.PlatformTag == "Steam";
 
-                NetworkSystem.Instance.OnJoinedRoomEvent += OnJoinedRoom_RenamedHaha;
+                NetworkSystem.Instance.OnJoinedRoomEvent += asdadasewwfdsfsf;
                 NetworkSystem.Instance.OnReturnedToSinglePlayer += roomJoined;
 
                 if (DebugMode)
@@ -207,17 +207,17 @@ namespace Grate
             }
         }
 
-        private void OnJoinedRoom_RenamedHaha()
+        private void asdadasewwfdsfsf()
         {
-            ModdedTrueJoin_RenamedHaha();
+            qwertyujikl();
 
             // if (NetworkSystem.Instance.GameModeString.Contains("MODDED_"))
             // {
-            //     ModdedTrueJoin_RenamedHaha();
+            //     qwertyujikl();
             // }
         }
 
-        void ModdedTrueJoin_RenamedHaha()
+        void qwertyujikl()
         {
             Logging.Debug("RoomJoined");
             WaWa_graze_dot_cc = true;

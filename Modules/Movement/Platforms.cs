@@ -26,7 +26,7 @@ namespace Grate.Modules.Movement
         Vector3 scale;
         string modelName;
         GameObject model;
-        GameObject Climbable;
+        public GorillaClimbable Climbable;
         Transform wings;
         ParticleSystem rain;
 
@@ -68,17 +68,15 @@ namespace Grate.Modules.Movement
             collider.gameObject.layer = NoClip.active ? NoClip.layer : 0;
             collider.gameObject.layer = NoClip.active ? NoClip.layer : 0;
             collider.enabled = !isSticky;
-            Climbable.SetActive(isSticky);
+            Climbable.gameObject.SetActive(isSticky);
             this.model.SetActive(true);
             if (modelName == "storm cloud")
             {
                 rain.Play();
             }
-            Player.Instance.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            Player.Instance.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         }
 
-        public GameObject CreateClimbable()
+        public GorillaClimbable CreateClimbable()
         {
             var climbable = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             climbable.name = "Grate Climb Obj";
@@ -86,16 +84,15 @@ namespace Grate.Modules.Movement
             climbable.layer = LayerMask.NameToLayer("GorillaInteractable");
             climbable.GetComponent<Renderer>().enabled = false;
             climbable.transform.localScale = Vector3.one * .15f;
-            return climbable;
+            return climbable.GetComponent<GorillaClimbable>();
         }
 
         public void Deactivate()
         {
             isActive = false;
             collider.enabled = false;
-            Climbable.SetActive(false);
-            if (!this.model.name.Contains("cloud"))
-                this.model.SetActive(false);
+            Climbable.gameObject.SetActive(false);
+            this.model.SetActive(false);
         }
 
         void FixedUpdate()
@@ -158,6 +155,7 @@ namespace Grate.Modules.Movement
         public static readonly string DisplayName = "Platforms";
         public static GameObject platformPrefab;
         public Platform left, right, main;
+        public static GorillaHandClimber LeftC, RightC;
         InputTracker inputL, inputR;
 
         void Awake()
@@ -165,6 +163,17 @@ namespace Grate.Modules.Movement
             if (!platformPrefab)
             {
                 platformPrefab = Plugin.assetBundle.LoadAsset<GameObject>("Bark Platform");
+            }
+            foreach (GorillaHandClimber ghc in Resources.FindObjectsOfTypeAll<GorillaHandClimber>())
+            {
+                if (ghc.xrNode == XRNode.LeftHand)
+                {
+                    LeftC = ghc;
+                }
+                if (ghc.xrNode == XRNode.RightHand)
+                {
+                    RightC = ghc;
+                }
             }
         }
 
@@ -223,10 +232,12 @@ namespace Grate.Modules.Movement
         {
             if (left != null)
             {
+                Player.Instance.EndClimbing(LeftC, false);
                 left.gameObject?.Obliterate();
             }
             if (right != null)
             {
+                Player.Instance.EndClimbing(RightC, false);
                 right.gameObject?.Obliterate();
             }
             Unsub();

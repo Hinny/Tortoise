@@ -1,7 +1,5 @@
 ﻿using Grate.Extensions;
 using Grate.Gestures;
-using Grate.GUI;
-using Grate.Modules.Movement;
 using Grate.Patches;
 using Grate.Tools;
 using GorillaLocomotion;
@@ -9,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 namespace Grate.Modules.Multiplayer
 {
     public class Firefly : MonoBehaviour
@@ -51,9 +50,10 @@ namespace Grate.Modules.Multiplayer
         {
             try
             {
-                if (!rig.enabled || !Fireflies.instance.enabled || !NetworkSystem.Instance.InRoom)
+                if (!NetworkSystem.Instance.PlayerListOthers.Contains(rig.OwningNetPlayer) || !Fireflies.instance.enabled || !NetworkSystem.Instance.InRoom)
                 {
                     fly.Obliterate();
+                    Fireflies.fireflies.Remove(this);
                     this.Obliterate();
                 }
                 else
@@ -144,7 +144,6 @@ namespace Grate.Modules.Multiplayer
 
         protected override void OnEnable()
         {
-            if (!MenuController.Instance.Built) return;
             base.OnEnable();
             try
             {
@@ -164,15 +163,7 @@ namespace Grate.Modules.Multiplayer
 
         void OnTriggerPressed(InputTracker tracker)
         {
-            foreach (var firefly in fireflies)
-            {
-                if (firefly.rig is null)
-                {
-                    firefly.Obliterate();
-                }
-            }
             StopAllCoroutines();
-            fireflies.RemoveAll(fly => fly is null);
             bool isLeft = tracker == GestureTracker.Instance.leftTrigger;
             var interactor = isLeft ? GestureTracker.Instance.leftPalmInteractor : GestureTracker.Instance.rightPalmInteractor;
             hand = interactor.transform;
@@ -182,7 +173,11 @@ namespace Grate.Modules.Multiplayer
 
         void FixedUpdate()
         {
-            if (!charging || !hand) return;
+            if (!charging || !hand)
+            {
+                fireflies.RemoveAll(fly => fly is null);
+                return;
+            }
             for (int i = 0; i < fireflies.Count; i++)
             {
                 float angle = (i * Mathf.PI * 2 / fireflies.Count) + Time.time;
