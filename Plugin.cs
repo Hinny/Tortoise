@@ -44,7 +44,7 @@ namespace Grate
             try
             {
                 gt = this.gameObject.GetOrAddComponent<GestureTracker>();
-                nph = this.gameObject.GetOrAddComponent<NetworkPropertyHandler>();  
+                nph = this.gameObject.GetOrAddComponent<NetworkPropertyHandler>();
                 menuController = Instantiate(monkeMenuPrefab).AddComponent<MenuController>();
             }
             catch (Exception e)
@@ -209,10 +209,12 @@ namespace Grate
 
         private void OnJoinedRoom_RenamedHaha()
         {
-            if (NetworkSystem.Instance.GameModeString.Contains("MODDED_"))
-            {
-                ModdedTrueJoin_RenamedHaha();
-            }
+            ModdedTrueJoin_RenamedHaha();
+
+            // if (NetworkSystem.Instance.GameModeString.Contains("MODDED_"))
+            // {
+            //     ModdedTrueJoin_RenamedHaha();
+            // }
         }
 
         void ModdedTrueJoin_RenamedHaha()
@@ -245,11 +247,11 @@ namespace Grate
                 Logging.Debug("Waiting to disconnect");
             }
             while (PhotonNetwork.InRoom);
-            
+
             string gamemodeCache = GorillaComputer.instance.currentGameMode.Value;
             Logging.Debug("Changing gamemode from", gamemodeCache, "to", gamemode);
             GorillaComputer.instance.currentGameMode.Value = gamemode;
-            PhotonNetworkController.Instance.AttemptToJoinSpecificRoom(name,JoinType.Solo);
+            PhotonNetworkController.Instance.AttemptToJoinSpecificRoom(name, JoinType.Solo);
 
             while (!PhotonNetwork.InRoom)
             {
